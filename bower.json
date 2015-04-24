@@ -1,0 +1,20 @@
+{
+  "name": "youtubify",
+  "version": "0.0.0",
+  "homepage": "https://github.com/connorsmallman/youtubify",
+  "authors": [
+    "connorsmallman <connor.smallman@bedegaming.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-less": "~3.3.4",
+    "font-awesome": "~4.3.0"
+  }
+}
