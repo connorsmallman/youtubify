@@ -19130,7 +19130,13 @@ var Videos = require("./videos/model");
 var YouTubeApp = new Marionette.Application();
 
 YouTubeApp.on("before:start", function() {
-	var videos = new Videos();
+	var initialData;
+
+	var videos = new Videos(initialData, {
+		part: "snippet",
+		maxResults: "10",
+		query: "good music"
+	});
 
 	videos.fetch().then(function (data){
 		console.log(data);
@@ -19138,17 +19144,23 @@ YouTubeApp.on("before:start", function() {
 });
 
 YouTubeApp.start();
-}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_b5d9fd32.js","/")
+}).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_cee1d7bd.js","/")
 },{"./videos/model":13,"1YiZ5S":9,"backbone":5,"backbone.marionette":1,"buffer":6,"jquery":10,"underscore":11}],13:[function(require,module,exports){
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var Backbone = require("backbone");
+var _ = require("underscore");
 
 var key = "AIzaSyBZ_urP_23209MzD8Q7y_63S3yX5szvpCI"
 
 var Videos = Backbone.Collection.extend({
-	url: "https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=funny&key=" + key,
+	url: function(){
+		return "https://www.googleapis.com/youtube/v3/search?part=" + this.options.part + "&maxResults=" + this.options.maxResults + "&q=" + this.options.query + "&key=" + key;
+	},
+	initialize: function(models, options){
+		this.options = options;
+	}
 });
 
 module.exports = Videos;
 }).call(this,require("1YiZ5S"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/videos/model.js","/videos")
-},{"1YiZ5S":9,"backbone":5,"buffer":6}]},{},[12])
+},{"1YiZ5S":9,"backbone":5,"buffer":6,"underscore":11}]},{},[12])

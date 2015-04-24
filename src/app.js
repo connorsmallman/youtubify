@@ -9,7 +9,13 @@ var Videos = require("./videos/model");
 var YouTubeApp = new Marionette.Application();
 
 YouTubeApp.on("before:start", function() {
-	var videos = new Videos();
+	var initialData;
+
+	var videos = new Videos(initialData, {
+		part: "snippet",
+		maxResults: "10",
+		query: "good music"
+	});
 
 	videos.fetch().then(function (data){
 		console.log(data);
