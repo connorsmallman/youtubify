@@ -38,19 +38,17 @@ YouTubeApp.on("before:start", function () {
 		app: YouTubeApp
 	});
 
-	search.load({
-		region: YouTubeApp.rootView.search
-	});
-
-	search.search({
+	search.controller.loadSearchBar(YouTubeApp.rootView.search);
+	search.controller.setupSearch({
 		url: "api/videos/search",
-		fields: {
+		options: {
 			part: "snippet",
 			maxResults: "10",
-			q: "funny",
-		}
-	}, function (results) {
-		var view = new ResultsView({collection: results});
+		},
+		searchField: "q"
+	});
+	search.controller.search("funny", function (resultsCollection) {
+		var view = new ResultsView({collection: resultsCollection});
 
 		YouTubeApp.rootView.results.show(view);
 	});

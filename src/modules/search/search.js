@@ -1,40 +1,25 @@
-var _ = require("underscore");
-var Layout = require("./layout");
-var Collection = require("./collection");
+var _ = require('underscore');
+var SearchCollection = require('./collection');
+var SearchController = require('./controller');
+var SearchRouter = require('./controller');
+var Backbone = require('backbone');
+
 var serialize = require("../../helpers/serialize");
-var Backbone = require("backbone");
 
 module.exports = function (settings) {
 	var module = {};
 
 	module.app = settings.app;
 
-	// module.clearSearch = function () {
-	// 	collection.reset();
-	// };
+	module.collection = new SearchCollection();
 
-	module.search = function (options, callback) {
-		var fields = options.fields || {};
-		var query = "?" + serialize(fields);
+	module.controller = new SearchController({
+		module: module
+	});
 
-		if(options.key){
-			query+= "&key=" + options.key;
-		}
-
-		var url = options.url + query;
-
-		var collection = new Collection([], { url: url });
-
-		collection.fetch().done(function () {
-			callback(collection);
-		});
-	};
-
-	module.load = function (options) {
-		var view = new Layout();
-
-		options.region.show(view);
-	};
+	module.router = new SearchRouter({
+		module: module
+	});
 
 	return module;
 }
