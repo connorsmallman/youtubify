@@ -4,22 +4,25 @@ var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
 
-var Videos = require("./videos/model");
+var SearchModule = require('./modules/search/search');
 
 var YouTubeApp = new Marionette.Application();
 
-YouTubeApp.on("before:start", function() {
-	var initialData;
+var RootView = Marionette.LayoutView.extend({
+	el: 'body',
+	regions: {
+        search: "#searchContainer"
+    }
+});
 
-	var videos = new Videos(initialData, {
-		part: "snippet",
-		maxResults: "10",
-		query: "good music"
+YouTubeApp.rootView = new RootView();
+
+YouTubeApp.on("before:start", function () {
+	var search = new SearchModule({
+		app: YouTubeApp
 	});
 
-	videos.fetch().then(function (data){
-		console.log(data);
-	});
+	search.load(YouTubeApp.rootView.search);
 });
 
 YouTubeApp.start();
