@@ -1,7 +1,5 @@
 var Backbone = require("backbone");
 
-var Backbone.Model.extends({
-	initialize: function(options){
-		
-	}
+module.exports = Backbone.Model.extend({
+	idAttribute: 'model_id',
 });

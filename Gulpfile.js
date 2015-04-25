@@ -22,7 +22,7 @@ gulp.task('bundle', function () {
     });
 
 gulp.task('watch', function () {
-  gulp.watch('./src/**/*.js', ['bundle']);
+  gulp.watch(['./src/**/*.js', './src/**/*.hbs'], ['bundle']);
 });
 
 gulp.task('default', ['bundle', 'watch']);

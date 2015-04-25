@@ -13,27 +13,27 @@ module.exports = function (settings) {
 	// 	collection.reset();
 	// };
 
-	module.search = function (params, callback) {
-		var fields = params.fields || {};
+	module.search = function (options, callback) {
+		var fields = options.fields || {};
 		var query = "?" + serialize(fields);
 
-		if(params.key){
-			query+= "&key=" + params.key;
+		if(options.key){
+			query+= "&key=" + options.key;
 		}
 
-		var url = params.url + query;
+		var url = options.url + query;
 
-		var collection = new Collection([], {url: url});
+		var collection = new Collection([], { url: url });
 
-		collection.fetch().then(function (results) {
-			callback(results);
+		collection.fetch().done(function () {
+			callback(collection);
 		});
 	};
 
-	module.load = function (region) {
+	module.load = function (options) {
 		var view = new Layout();
 
-		region.show(view);
+		options.region.show(view);
 	};
 
 	return module;
