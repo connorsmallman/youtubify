@@ -23,6 +23,18 @@ YouTubeApp.on("before:start", function () {
 	});
 
 	search.load(YouTubeApp.rootView.search);
+
+	search.search({
+		url: "https://www.googleapis.com/youtube/v3/search",
+		fields: {
+			part: "snippet",
+			maxResults: "1",
+			q: "funny",
+		},
+		key: "AIzaSyBZ_urP_23209MzD8Q7y_63S3yX5szvpCI"
+	}, function (results) {
+		console.log(results);
+	});
 });
 
 YouTubeApp.start();
