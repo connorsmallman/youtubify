@@ -36,7 +36,7 @@ YouTubeApp.rootView = new RootView();
 YouTubeApp.on("before:start", function () {
 	var search = new SearchModule({
 		app: YouTubeApp,
-		view: YouTubeApp.rootView.search
+		region: YouTubeApp.rootView.search
 	});
 
 	search.controller.setupSearch({
@@ -47,7 +47,7 @@ YouTubeApp.on("before:start", function () {
 		},
 		searchField: "q"
 	});
-	
+
 	search.controller.search("funny", function (resultsCollection) {
 		var view = new ResultsView({collection: resultsCollection});
 

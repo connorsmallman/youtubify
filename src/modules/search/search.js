@@ -10,7 +10,7 @@ module.exports = function (settings) {
 	var module = {};
 
 	module.app = settings.app;
-	module.view = settings.view;
+	module.region = settings.region;
 
 	module.collection = new SearchCollection();
 
