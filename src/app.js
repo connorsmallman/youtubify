@@ -34,12 +34,13 @@ var ResultsModel = Backbone.Model.extend({});
 YouTubeApp.rootView = new RootView();
 
 YouTubeApp.on("before:start", function () {
-	var search = new SearchModule({
-		app: YouTubeApp,
+	var search = new SearchModule();
+
+	search.load({
 		region: YouTubeApp.rootView.search
 	});
 
-	search.controller.setupSearch({
+	search.setSearchSettings({
 		url: "api/videos/search",
 		options: {
 			part: "snippet",
@@ -48,7 +49,7 @@ YouTubeApp.on("before:start", function () {
 		searchField: "q"
 	});
 
-	search.controller.search("funny", function (resultsCollection) {
+	search.search("funny", function (resultsCollection) {
 		var view = new ResultsView({collection: resultsCollection});
 
 		YouTubeApp.rootView.results.show(view);
