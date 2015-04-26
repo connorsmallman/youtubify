@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
+var less = require('gulp-less');
 var hbsfy = require('hbsfy');
 
 gulp.task('start', function () {
@@ -10,6 +11,17 @@ gulp.task('start', function () {
     tasks: ['watch'],
     ext: 'js html hbs'
   });
+});
+
+gulp.task("less", function () {
+    gulp.src("./src/assets/less/main.less")
+        .pipe(less({
+            paths: [
+                "./bower_components/font-awesome/less/",
+                "./bower_components/bootstrap-less/less/"
+            ]
+        }))
+        .pipe(gulp.dest("./dist/public/stylesheets"));
 });
 
 gulp.task('bundle', function () {
@@ -32,6 +44,7 @@ gulp.task('bundle', function () {
 
 gulp.task('watch', function () {
   gulp.watch(['./src/**/*.js', './src/**/*.hbs'], ['bundle']);
+  gulp.watch(['./src/assets/**/*.less'], ['less']);
 });
 
-gulp.task('default', ['bundle', 'start']);
+gulp.task('default', ['bundle', 'less', 'start']);

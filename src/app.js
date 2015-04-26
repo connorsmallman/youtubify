@@ -6,14 +6,14 @@ var Marionette = require('backbone.marionette');
 
 var SearchModule = require('./modules/search/search');
 
-var videoTemplate = require("./videos/video-template.hbs");
+var videoTemplate = require("./modules/videos/video-template.hbs");
 
 var YouTubeApp = new Marionette.Application();
 
 var RootView = Marionette.LayoutView.extend({
 	el: 'body',
 	regions: {
-        search: "#searchContainer",
+        search: "#searchBarContainer",
         results: "#resultsContainer"
     }
 });
@@ -35,10 +35,10 @@ YouTubeApp.rootView = new RootView();
 
 YouTubeApp.on("before:start", function () {
 	var search = new SearchModule({
-		app: YouTubeApp
+		app: YouTubeApp,
+		view: YouTubeApp.rootView.search
 	});
 
-	search.controller.loadSearchBar(YouTubeApp.rootView.search);
 	search.controller.setupSearch({
 		url: "api/videos/search",
 		options: {
@@ -47,6 +47,7 @@ YouTubeApp.on("before:start", function () {
 		},
 		searchField: "q"
 	});
+	
 	search.controller.search("funny", function (resultsCollection) {
 		var view = new ResultsView({collection: resultsCollection});
 

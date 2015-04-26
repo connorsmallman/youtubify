@@ -1,25 +1,41 @@
 var Marionette = require('backbone.marionette');
-var SearchBarView = require('./view');
+var $ = require('jquery');
+var SearchBarView = require('./views/searchbar');
+var SearchingView = require('./views/searching');
 var Collection = require('./collection');
 
 var serialize = require('../../helpers/serialize');
 
 module.exports = Marionette.Object.extend({
 	initialize: function (options) {
+		var self = this;
+
 		this.module = options.module;
-	},
-	loadSearchBar: function (container) {
+
 		var view = new SearchBarView();
 
-		container.show(view);
+		this.module.view.show(view);
+
+		view.on("search:view:init", function (view) {
+			var value = view.$("#search").val();
+
+			self.loadSearchingView(value);
+		});
 	},
 	setupSearch: function (settings) {
-		this.options = settings.options || {};
-		this.searchField = settings.searchField || "";
-		this.query = "?" + serialize(this.options) + "&" + this.searchField + "=";
-		this.url = settings.url + this.query;
+		var url = settings.url || "";
+		var options = settings.options || {};
+		var searchField = settings.searchField || "";
+		var query = "?" + serialize(options) + "&" + searchField + "=";
 
-		console.log(this.url);
+		this.url = (url + query) || "";
+	},
+	loadSearchingView: function (value) {
+		var view = new SearchingView({
+			value: value
+		});
+
+		this.module.view.show(view);
 	},
 	search: function (query, callback) {
 		var url = this.url + encodeURI(query);
