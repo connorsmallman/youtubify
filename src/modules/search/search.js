@@ -13,6 +13,8 @@ module.exports = function () {
 		var view = new SearchView();
 		var region = settings.region;
 
+		// module.router = new SearchRouter();
+
 		region.show(view);
 	};
 
