@@ -16,10 +16,10 @@ module.exports = Marionette.Object.extend({
 
 		this.module.view.show(view);
 
-		view.on("search:view:init", function (view) {
+		view.on("searching:view:init", function (view) {
 			var value = view.$("#search").val();
 
-			self.loadSearchingView(value);
+			self.loadSearchingState(value);
 		});
 	},
 	setupSearch: function (settings) {
@@ -30,7 +30,7 @@ module.exports = Marionette.Object.extend({
 
 		this.url = (url + query) || "";
 	},
-	loadSearchingView: function (value) {
+	loadSearchingState: function (value) {
 		var view = new SearchingView({
 			value: value
 		});

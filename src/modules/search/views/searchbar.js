@@ -1,14 +1,15 @@
-var Marionette = require("backbone.marionette");
+var Marionette = require('backbone.marionette');
 
-var searchTemplate = require("./search-template.hbs");
+var searchTemplate = require('./search-template.hbs');
+var searchingTemplate = require('./searching-template.hbs');
 
 module.exports = Marionette.ItemView.extend({
 	className: "container",
 	template: searchTemplate,
 	events: {
-		"keyup #search":"loadSearchingView"
+		"keyup #search":"loadSearchingState"
 	},
-	loadSearchingView: function () {
-		this.trigger("search:view:init", this);
+	loadSearchingState: function () {
+		this.trigger("searching:view:init", this);
 	}
 });
