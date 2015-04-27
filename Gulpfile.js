@@ -4,8 +4,9 @@ var source = require('vinyl-source-stream');
 var nodemon = require('gulp-nodemon');
 var less = require('gulp-less');
 var hbsfy = require('hbsfy');
+var karma = require('karma').server;
 
-gulp.task('start', function () {
+gulp.task('start', ['test'], function () {
   nodemon({
     script: 'server.js', 
     tasks: ['watch'],
@@ -40,6 +41,13 @@ gulp.task('bundle', function () {
         .bundle()
         .pipe(source('app.min.js'))
         .pipe(gulp.dest('dist/public/js'));
+});
+
+gulp.task('test', function (done) {
+    karma.start({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done);
 });
 
 gulp.task('watch', function () {

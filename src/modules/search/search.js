@@ -1,3 +1,5 @@
+'use strict';
+
 var ResultsCollection = require('./models/resultsCollection');
 var SearchView = require('./views/searchView');
 var SearchController = require('./controller');
