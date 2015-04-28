@@ -5,16 +5,19 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 Backbone.$ = $;
 var Marionette = require('backbone.marionette');
+var sinon = require('sinon');
 
-var SearchModule = require('../src/modules/search/search');
+var SearchModel = require('../src/modules/search/models/searchModel');
 
 describe("Search Module", function() {
-  var search = new SearchModule();
+	describe("Search Model", function() {
+		beforeEach(function() {
+	  		this.searchModel = new SearchModel();
+		});
 
-  beforeAll(function () {
-  });
-
-  it("contains spec with an expectation", function() {
-    expect(true).toBe(true);
-  });
+		it("should have defaults values", function() {
+			expect(this.searchModel.get("searchValue")).toEqual("");
+			expect(this.searchModel.get("searching")).toEqual(false);
+		});
+	});
 });

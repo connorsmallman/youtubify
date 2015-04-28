@@ -9,7 +9,7 @@ var karma = require('karma').server;
 gulp.task('start', ['test'], function () {
   nodemon({
     script: 'server.js', 
-    tasks: ['watch'],
+    tasks: ['watch:less', 'watch:scripts', 'watch:test'],
     ext: 'js html hbs'
   });
 });
@@ -46,13 +46,20 @@ gulp.task('bundle', function () {
 gulp.task('test', function (done) {
     karma.start({
         configFile: __dirname + '/karma.conf.js',
-        singleRun: true
+        singleRun: false
     }, done);
 });
 
-gulp.task('watch', function () {
-  gulp.watch(['./src/**/*.js', './src/**/*.hbs'], ['bundle']);
-  gulp.watch(['./src/assets/**/*.less'], ['less']);
+gulp.task('watch:scripts', function () {
+  gulp.watch(['./src/**/*.js', './src/**/*.hbs', '!./test/*Spec.js'], ['bundle']);
+});
+
+gulp.task('watch:less', function () {
+    gulp.watch(['./src/assets/**/*.less'], ['less']);
+})
+
+gulp.task('watch:test', function () {
+  gulp.watch(['./src/**/*.js', ], ['test']);
 });
 
 gulp.task('default', ['bundle', 'less', 'start']);
