@@ -6,10 +6,10 @@ var less = require('gulp-less');
 var hbsfy = require('hbsfy');
 var karma = require('karma').server;
 
-gulp.task('start', ['test'], function () {
+gulp.task('start', function () {
   nodemon({
     script: 'server.js', 
-    tasks: ['watch:less', 'watch:scripts', 'watch:test'],
+    tasks: ['watch:less', 'watch:scripts'],
     ext: 'js html hbs'
   });
 });
@@ -46,8 +46,10 @@ gulp.task('bundle', function () {
 gulp.task('test', function (done) {
     karma.start({
         configFile: __dirname + '/karma.conf.js',
-        singleRun: false
-    }, done);
+        singleRun: true,
+    }, function() {
+        done();
+    });
 });
 
 gulp.task('watch:scripts', function () {
@@ -63,3 +65,5 @@ gulp.task('watch:test', function () {
 });
 
 gulp.task('default', ['bundle', 'less', 'start']);
+
+gulp.task('tests', ['test', 'watch:test']);

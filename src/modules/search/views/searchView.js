@@ -7,6 +7,8 @@ var SearchModel = require('../models/searchModel');
 var searchTemplate = require('./search-template.hbs');
 var searchingTemplate = require('./searching-template.hbs');
 
+var searchController = require('../controller');
+
 var model = new SearchModel();
 
 module.exports = Marionette.ItemView.extend({
@@ -29,13 +31,20 @@ module.exports = Marionette.ItemView.extend({
 			return searchTemplate
 		}
 	},
-	search: function () {
-		var value = $(this.ui.input).val();
+	search: function (event) {
+		if(event.keyCode === 13 && this.model.get("searching") === true){
+			var value = $(this.ui.input).val();
 
-		if(value === ""){
-			this.model.set({searching: false, searchValue: ""});
-		}else{
-			this.model.set({searching: true, searchValue: value });
+			searchController.searchQuery(value);
+		} else {
+			var value = $(this.ui.input).val();
+
+			if(value === ""){
+				searchController.setSearchState("empty");
+				this.model.set({searching: false, searchValue: ""});
+			}else{
+				this.model.set({searching: true, searchValue: value });
+			}
 		}
 	},
 	changeState: function () {

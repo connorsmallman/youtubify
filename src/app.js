@@ -12,6 +12,12 @@ var videoTemplate = require("./modules/videos/video-template.hbs");
 
 var YouTubeApp = new Marionette.Application();
 
+var Controller = Marionette.Object.extend({
+	searchResults: function (method, results){
+		this.trigger("search:results", results);
+	}
+});
+
 var RootView = Marionette.LayoutView.extend({
 	el: 'body',
 	regions: {
@@ -31,18 +37,21 @@ var ResultsView = Marionette.CollectionView.extend({
 	childView: VideoView
 });
 
-var ResultsModel = Backbone.Model.extend({});
+var ResultsModel = Backbone.Model.extend({
+	idAttribute: "model_id"
+});
+var ResultsCollection = Backbone.Collection.extend({
+	model: ResultsModel
+});
 
 YouTubeApp.rootView = new RootView();
+YouTubeApp.controller = new Controller();
 
 YouTubeApp.on("before:start", function () {
 	var search = new SearchModule();
 
 	search.load({
-		region: YouTubeApp.rootView.search
-	});
-
-	search.setSearchSettings({
+		region: YouTubeApp.rootView.search,
 		url: "api/videos/search",
 		options: {
 			part: "snippet",
@@ -51,11 +60,27 @@ YouTubeApp.on("before:start", function () {
 		searchField: "q"
 	});
 
-	search.search("funny", function (resultsCollection) {
-		var view = new ResultsView({collection: resultsCollection});
-
-		YouTubeApp.rootView.results.show(view);
+	search.controller.on("search:results", function (results) {
+		console.log(results);
+		YouTubeApp.controller.searchResults("results", results);
 	});
+
+	search.controller.on("search:empty", function () {
+		console.log("empty");
+		YouTubeApp.controller.searchResults("results", "");
+	})
+});
+
+YouTubeApp.controller.on("search:results", function (results){
+	var collection = new ResultsCollection(results);
+
+	console.log(collection);
+
+	var view = new ResultsView({
+		collection: collection
+	});
+
+	YouTubeApp.rootView.results.show(view);
 });
 
 YouTubeApp.start();
