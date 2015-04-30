@@ -43,6 +43,7 @@
     "sinon": "^1.14.1",
     "underscore": "^1.8.3",
     "vinyl-source-stream": "*",
-    "font-awesome": "*"
+    "font-awesome": "*",
+    "bootstrap": "*"
   }
 }
