@@ -18,8 +18,8 @@ gulp.task("less", function () {
     gulp.src("./src/assets/less/main.less")
         .pipe(less({
             paths: [
-                "./bower_components/font-awesome/less/",
-                "./bower_components/bootstrap-less/less/"
+                "./node_modules/font-awesome/less/",
+                "./node_modules/bootstrap/less/"
             ]
         }))
         .pipe(gulp.dest("./dist/public/stylesheets"));
