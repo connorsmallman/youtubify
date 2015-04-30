@@ -42,6 +42,7 @@
     "request": "^2.55.0",
     "sinon": "^1.14.1",
     "underscore": "^1.8.3",
-    "vinyl-source-stream": "*"
+    "vinyl-source-stream": "*",
+    "font-awesome": "*"
   }
 }
