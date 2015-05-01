@@ -38,7 +38,6 @@ module.exports = Marionette.ItemView.extend({
 		var value = $(this.ui.searchingStateInput).val();
 		
 		if(value.length && event.keyCode === 13){
-			
 			searchController.searchQuery(value);
 		}
 		else if (value.length === 0){

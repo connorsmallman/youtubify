@@ -61,7 +61,7 @@ gulp.task('watch:less', function () {
 })
 
 gulp.task('watch:test', function () {
-  gulp.watch(['./src/**/*.js', ], ['test']);
+  gulp.watch(['./test/spearchSpec.js', ], ['tests']);
 });
 
 gulp.task('default');
