@@ -2,6 +2,7 @@
 
 var Marionette = require('backbone.marionette');
 var $ = require('jquery');
+var _ = require('underscore');
 var SearchModel = require('../models/searchModel');
 
 var searchTemplate = require('./search-template.hbs');
@@ -14,10 +15,12 @@ var model = new SearchModel();
 module.exports = Marionette.ItemView.extend({
 	className: "container-fluid",
 	ui: {
-		input: "#search"
+		searchStateInput: "#search",
+		searchingStateInput: "#searching"
 	},
 	events: {
-		"keyup @ui.input":"search"
+		"keyup @ui.searchStateInput":"loadSearchingState",
+		"keyup @ui.searchingStateInput":"search"
 	},
 	model: model,
 	modelEvents: {
@@ -32,25 +35,38 @@ module.exports = Marionette.ItemView.extend({
 		}
 	},
 	search: function (event) {
-		if(event.keyCode === 13 && this.model.get("searching") === true){
-			var value = $(this.ui.input).val();
-
+		var value = $(this.ui.searchingStateInput).val();
+		
+		if(value.length && event.keyCode === 13){
+			
 			searchController.searchQuery(value);
-		} else {
-			var value = $(this.ui.input).val();
+		}
+		else if (value.length === 0){
+			this.loadSearchState();
+		}
+	},
+	loadSearchState: function () {
+		this.model.set({searching: false, searchValue: ""});
+		searchController.setSearchState("search"); 
+	},
+	loadSearchingState: function (event) {
+		var value = $(this.ui.searchStateInput).val();
 
-			if(value === ""){
-				searchController.setSearchState("empty");
-				this.model.set({searching: false, searchValue: ""});
-			}else{
-				this.model.set({searching: true, searchValue: value });
-			}
+		if(value.length){
+			this.model.set({searching: true, searchValue: value});
+			searchController.setSearchState("searching"); 
+		}
+	},
+	onRender: function () {
+		if(this.model.get("searching")){
+			var value = this.model.get("searchValue");
+
+			$(this.ui.searchingStateInput).focus().val(value);
+		} else {
+			$(this.ui.searchStateInput).focus();
 		}
 	},
 	changeState: function () {
 		this.render();
-	},
-	onRender: function () {
-		$(this.ui.input).focus().val(this.model.get("searchValue"));
 	}
 });

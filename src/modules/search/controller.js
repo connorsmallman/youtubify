@@ -10,8 +10,11 @@ var SearchController = Marionette.Object.extend({
 		this.trigger("search:results", results);
 	},
 	setSearchState: function (state) {
-		if(state === "empty") {
-			this.trigger("search:empty");
+		if(state === "search") {
+			this.trigger("state:search");
+		}
+		else {
+			this.trigger("state:searching");
 		}
 	}
 });

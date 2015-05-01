@@ -65,10 +65,9 @@ YouTubeApp.on("before:start", function () {
 		YouTubeApp.controller.searchResults("results", results);
 	});
 
-	search.controller.on("search:empty", function () {
-		console.log("empty");
+	search.controller.on("state:search", function () {
 		YouTubeApp.controller.searchResults("results", "");
-	})
+	});
 });
 
 YouTubeApp.controller.on("search:results", function (results){
